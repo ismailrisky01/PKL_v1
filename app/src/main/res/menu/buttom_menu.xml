@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dashboardFragment"
+        android:icon="@drawable/ic_launcher_background"
+        android:label="Dashboard"
+        android:title="DashBoard" />
+    <item
+        android:id="@+id/questionnaireFragment"
+        android:icon="@drawable/ic_launcher_background"
+        android:label="Ask"
+        android:title="Ask" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_launcher_background"
+        android:label="Profile"
+        android:title="Profile" />
+    <item
+        android:id="@+id/historyFragment"
+        android:icon="@drawable/ic_launcher_background"
+        android:label="History"
+        android:title="History" />
+</menu>
