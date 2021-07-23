@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 data class ModelAcc (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val x_accelerometer: Int,
-    val y_accelerometer: Int,
-    val z_accelerometer: Int,
+    val x_accelerometer: Double,
+    val y_accelerometer: Double,
+    val z_accelerometer: Double,
 ): Parcelable

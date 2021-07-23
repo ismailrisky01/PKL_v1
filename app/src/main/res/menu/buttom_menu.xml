@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/dashboardFragment"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/ic_baseline_home_24"
         android:label="Dashboard"
         android:title="DashBoard" />
     <item
         android:id="@+id/questionnaireFragment"
-        android:icon="@drawable/ic_launcher_background"
-        android:label="Ask"
+        android:icon="@drawable/ic_baseline_question_answer_24"
+        android:label="Questionair"
         android:title="Ask" />
     <item
+        android:id="@+id/alarmFragment"
+        android:icon="@drawable/ic_baseline_access_alarm_24"
+        android:label="Alarm"
+        android:title="Alarm" />
+    <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/ic_baseline_person_24"
         android:label="Profile"
         android:title="Profile" />
-    <item
-        android:id="@+id/historyFragment"
-        android:icon="@drawable/ic_launcher_background"
-        android:label="History"
-        android:title="History" />
 </menu>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/dashboardFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/dashboardFragment"
@@ -12,21 +12,26 @@
         tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.pkl_v1.ui.LoginFragment"
+        android:name="com.example.pkl_v1.ui.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/mobile_navigation" />
+        <action
+            android:id="@+id/action_loginFragment_to_registrasiFragment"
+            app:destination="@id/registrasiFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrasiFragment"
-        android:name="com.example.pkl_v1.ui.RegistrasiFragment"
+        android:name="com.example.pkl_v1.ui.auth.RegistrasiFragment"
         android:label="fragment_registrasi"
         tools:layout="@layout/fragment_registrasi" >
         <action
             android:id="@+id/action_registrasiFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/mobile_navigation" />
     </fragment>
     <fragment
         android:id="@+id/chartFragment"
@@ -48,4 +53,9 @@
         android:name="com.example.pkl_v1.QuestionnaireFragment"
         android:label="fragment_questionnaire"
         tools:layout="@layout/fragment_questionnaire" />
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="com.example.pkl_v1.ui.alarm.AlarmFragment"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
 </navigation>
