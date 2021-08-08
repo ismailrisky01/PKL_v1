@@ -7,80 +7,127 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Parcelable
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.Toast
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.pkl_v1.MainActivity
 import com.example.pkl_v1.R
-import com.example.pkl_v1.databinding.FragmentAlarmBinding
+import com.example.pkl_v1.data.alarm.AlarmBroadcastReceiver
+import com.example.pkl_v1.service.AlarmService
 import com.example.pkl_v1.service.logD
-import com.example.room_pkl.data.AlarmBroadcastReceiver
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
 @Entity(tableName = "alarm_table")
 data class AlarmModel(
-    @PrimaryKey(autoGenerate = true)
-    val id :Int,
-    val hour:Int,
-    val minute:Int,
-    var started:Boolean
+    @PrimaryKey
+    val id: Int,
+    val hour: Int,
+    val minute: Int,
+    var started: Boolean
 
-    ):Parcelable{
-        fun schedule(context: Context){
+) : Parcelable {
+    fun schedule(context: Context) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, MyAlarm::class.java)
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_NO_CREATE)
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar[Calendar.HOUR_OF_DAY] = hour
+        calendar[Calendar.MINUTE] = minute
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+        val RUN_DAILY = (24 * 60 * 60 * 1000).toLong()
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            RUN_DAILY,
+            pendingIntent
+        )
+        Toast.makeText(context, "Succes Set Alarm with id$id", Toast.LENGTH_SHORT).show()
+        val toastText = String.format("Alarm started for %02d:%02d with id %d", hour, minute, id)
+        Log.d("PKL_ismail", toastText)
+        this.started = true
+    }
 
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
-            calendar[Calendar.HOUR_OF_DAY] = hour
-            calendar[Calendar.MINUTE] = minute
-            calendar[Calendar.SECOND] = 0
-            calendar[Calendar.MILLISECOND] = 0
-           setAlarm(calendar.timeInMillis,context)
-            Toast.makeText(context, "Set + ${calendar.timeInMillis}", Toast.LENGTH_SHORT).show()
-            Log.d("Alarm Bell", "Set + ${calendar.timeInMillis}")
-        }
     fun cancelAlarm(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, AlarmBroadcastReceiver::class.java)
-        val alarmPendingIntent = PendingIntent.getBroadcast(context, id, intent, 0)
+        val intent = Intent(context, MyAlarm::class.java)
+        val alarmPendingIntent =
+            PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_NO_CREATE)
         alarmManager.cancel(alarmPendingIntent)
         this.started = false
+
         val toastText =
             String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, id)
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
-        Log.i("cancel", toastText)
+        Log.i("PKL_ismail", toastText)
     }
-    }
-
-fun setAlarm(timeInMillis:Long,context: Context){
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val intent = Intent()
-    intent.setClass(context, MyAlarm::class.java)
-    val alarmId = Random().nextInt(Int.MAX_VALUE)
-    val pendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis,AlarmManager.INTERVAL_DAY,pendingIntent)
-
 }
- class MyAlarm : BroadcastReceiver() {
+
+class MyAlarm : BroadcastReceiver() {
     override fun onReceive(
         context: Context,
         intent: Intent
     ) {
-        var mediaPlayer: MediaPlayer?=null
+
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
+            val toastText = String.format("Alarm Reboot")
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+            startRescheduleAlarmsService(context)
+        } else {
+            val toastText = String.format("Alarm Received")
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+            if (!intent.getBooleanExtra(AlarmBroadcastReceiver.RECURRING, false)) {
+                startAlarmService(context, intent)
+            }
+            {
+                if (alarmIsToday(intent)) {
+                    startAlarmService(context, intent)
+                }
+            }
+        }
+        var mediaPlayer: MediaPlayer? = null
         mediaPlayer = MediaPlayer.create(context, R.raw.alarm)
         mediaPlayer?.setOnPreparedListener {
             logD("Ready to GO")
         }
         mediaPlayer?.start()
         Log.d("Alarm Bell", "Alarm just fired")
-      notif(context)
+        notif(context)
 
     }
 }
-fun notif(context: Context){
+
+private fun startAlarmService(context: Context, intent: Intent) {
+    val intentService = Intent(context, AlarmService::class.java)
+    intentService.putExtra(
+        AlarmBroadcastReceiver.TITLE,
+        intent.getStringExtra(AlarmBroadcastReceiver.TITLE)
+    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        context.startForegroundService(intentService)
+    } else {
+        context.startService(intentService)
+    }
+}
+
+private fun startRescheduleAlarmsService(context: Context) {
+    val intentService = Intent(context, RescheduleAlarmsService::class.java)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        context.startForegroundService(intentService)
+    } else {
+        context.startService(intentService)
+    }
+}
+fun notif(context: Context) {
 
     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
     var notificationManager: NotificationManager
@@ -94,20 +141,26 @@ fun notif(context: Context){
     contentView = RemoteViews(context?.packageName, R.layout.fragment_notifikasi)
     contentView.setTextViewText(R.id.ID_Notif_txtNotifTittle, "AntriKom")
     contentView.setTextViewText(R.id.ID_Notif_txtNotifDesc, "Kamu berhasil mengambil antrian!")
-    val notificationIntent = Intent(context, FragmentAlarmBinding::class.java)
-    val pendingIntent = PendingIntent.getActivity(
+    val notificationIntent = Intent(context, MainActivity::class.java)
+    val pendingIntentq = PendingIntent.getActivity(
         context,
         12,
         notificationIntent,
         PendingIntent.FLAG_UPDATE_CURRENT
     )
+    val pendingIntent = NavDeepLinkBuilder(context)
+        .setComponentName(MainActivity::class.java)
+        .setGraph(R.navigation.mobile_navigation)
+        .setDestination(R.id.questionnaireFragment)
+        .createPendingIntent()
+
 
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
         notificationChannel =
             NotificationChannel(appID, desc, NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.enableLights(true)
         notificationChannel.lightColor = Color.GRAY
-        notificationChannel.enableVibration(false)
+        notificationChannel.enableVibration(true)
         notificationManager.createNotificationChannel(notificationChannel)
 
         builder = Notification.Builder(context, appID)

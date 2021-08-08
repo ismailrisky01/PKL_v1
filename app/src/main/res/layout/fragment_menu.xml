@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuFragment">
+
+
+    <Button
+        android:id="@+id/ID_Menu_Berdiri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Berdiri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/ID_Menu_Duduk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Duduk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ID_Menu_Berdiri" />
+
+    <Button
+        android:id="@+id/ID_Menu_Jongkok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jongkok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ID_Menu_Duduk" />
+
+    <Button
+        android:id="@+id/ID_Menu_Berbaring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Berbaring"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ID_Menu_Jongkok" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.pkl_v1.ui.alarm
 
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.example.pkl_v1.viewmodel.AlarmViewModel
 import java.util.*
 
 
-class AlarmFragment : Fragment(),OnToggleAlarmListener {
+class AlarmFragment : Fragment(),OnToggleAlarmListener,DeleteListener {
     private var _binding: FragmentAlarmBinding? = null
     private val binding get() = _binding!!
     private lateinit var mAlarmViewModel: AlarmViewModel
@@ -37,11 +38,11 @@ class AlarmFragment : Fragment(),OnToggleAlarmListener {
         binding.IDAlarmRecyclerview.adapter = alarmAdapter
         mAlarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         mAlarmViewModel.readAllAlarm.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(requireContext(), ""+it.size, Toast.LENGTH_SHORT).show()
-            if (it.size>4){
-                mAlarmViewModel.deleteALLAlarm()
-            }
-            alarmAdapter.setAlarm(it,this)
+//            Toast.makeText(requireContext(), ""+it.size, Toast.LENGTH_SHORT).show()
+//            if (it.size>4){
+//                mAlarmViewModel.deleteALLAlarm()
+//            }
+            alarmAdapter.setAlarm(it,this,this)
         })
 
         binding.floatingActionButton.setOnClickListener {
@@ -53,7 +54,8 @@ class AlarmFragment : Fragment(),OnToggleAlarmListener {
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
-                val data =AlarmModel(0,cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),true)
+                val alarmId = Random().nextInt(Int.MAX_VALUE)
+                val data =AlarmModel(alarmId,cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),true)
                 mAlarmViewModel.addAlarm(data)
                 data.schedule(requireContext())
             }
@@ -74,9 +76,26 @@ class AlarmFragment : Fragment(),OnToggleAlarmListener {
         if (alarm!!.started) {
             alarm.cancelAlarm(requireContext())
             mAlarmViewModel.upadteAlarm(alarm)
+
+
         } else {
+
             alarm!!.schedule(requireContext())
             mAlarmViewModel.upadteAlarm(alarm)
         }
     }
+
+
+    override fun delete(alarm: AlarmModel?) {
+        Toast.makeText(requireContext(), "Delete", Toast.LENGTH_SHORT).show()
+        Log.d("PKL_Ismail",alarm?.started.toString())
+        if (alarm!!.started) {
+            alarm.cancelAlarm(requireContext())
+            mAlarmViewModel.deleteAlarm(alarm!!)
+        }else{
+            mAlarmViewModel.deleteAlarm(alarm!!)
+
+        }
+    }
+
 }

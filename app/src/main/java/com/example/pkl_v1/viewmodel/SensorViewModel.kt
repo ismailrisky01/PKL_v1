@@ -4,8 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.pkl_v1.data.SensorDatabase
-import com.example.pkl_v1.data.SensorDatabaseGyro
+import com.example.pkl_v1.data.DatabaseKu
 import com.example.pkl_v1.model.ModelAcc
 import com.example.pkl_v1.model.ModelGyro
 import com.example.pkl_v1.repository.SensorRepository
@@ -17,8 +16,8 @@ class SensorViewModel (application: Application): AndroidViewModel(application){
     val readAllSensorGyro:LiveData<List<ModelGyro>>
     private val repository: SensorRepository
     init {
-        val sensorDao = SensorDatabase.getDatabase(application).sensorDAO()
-        val sensorGyroDao = SensorDatabaseGyro.getDatabase(application).sensorGyroDAO()
+        val sensorDao = DatabaseKu.getDatabase(application).sensorDAO()
+        val sensorGyroDao = DatabaseKu.getDatabase(application).sensorGyroDAO()
 
         repository = SensorRepository(sensorDao,sensorGyroDao)
         readAllSensorAcc = repository.readAllSensor
@@ -36,15 +35,19 @@ class SensorViewModel (application: Application): AndroidViewModel(application){
 
         }
     }
-    suspend fun avgYAcc():Double{
-            return repository.avgYAcc()
+
+
+    suspend fun arrayXAcc():DoubleArray{
+        return repository.arrayXAcc()
     }
-    suspend fun avgXAcc():Double{
-            return repository.avgXAcc()
+    suspend fun arrayYAcc():DoubleArray{
+        return repository.arrayYAcc()
     }
-    suspend fun avgZAcc():Double{
-            return repository.avgZAcc()
+    suspend fun arrayZAcc():DoubleArray{
+        return repository.arrayZAcc()
     }
+
+
 
 
 
@@ -53,15 +56,14 @@ class SensorViewModel (application: Application): AndroidViewModel(application){
             repository.addSensorGyro(modelGyro)
         }
     }
-
-    suspend fun avgXGyro():Double{
-        return repository.avgXGyro()
+    suspend fun arrayXGyro():DoubleArray{
+        return repository.arrayXGyro()
     }
-    suspend fun avgYGyro():Double{
-        return repository.avgYGyro()
+    suspend fun arrayYGyro():DoubleArray{
+        return repository.arrayYGyro()
     }
-    suspend fun avgZGyro():Double{
-        return repository.avgZGyro()
+    suspend fun arrayZGyro():DoubleArray{
+        return repository.arrayZGyro()
     }
 
 }

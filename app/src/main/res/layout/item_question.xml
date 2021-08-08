@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/white"
+        android:layout_margin="10dp"
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <RadioGroup
+android:id="@+id/radioGroup"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ID_ItemQuestion_TxtSoal">
+
+                <RadioButton
+                    android:id="@+id/ID_ItemQuestion_Pilihan1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="tidak ada"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/ID_ItemQuestion_Pilihan2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" perasaan ini hanya dinyatakan bila ditanya"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/ID_ItemQuestion_Pilihan3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="perasaan yang nyata tanpa komunikasi verbal misalnya ekspresi mukanya, bentuk suara dan  kecenderungan menangis"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/ID_ItemQuestion_Pilihan4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="pasien menyatakan perasaan yang sesungguhnya ini dalam komunikasi baik verbal maupun  non verbal secara spontan"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/ID_ItemQuestion_Pilihan5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pasien menyatakan perasaan yang sesungguhnya ini dalam komunikasi baik verbal maupun
+non verbal secara spontan"
+                    android:textColor="@color/black" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/ID_ItemQuestion_TxtSoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. Keadaan perasaan depresi (sedih, putus asa, tak berdaya, tak berguna) "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

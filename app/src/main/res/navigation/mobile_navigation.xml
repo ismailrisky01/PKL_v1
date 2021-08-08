@@ -7,9 +7,20 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.example.pkl_v1.ui.DashboardFragment"
+        android:name="com.example.pkl_v1.ui.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_questionnaireFragment"
+            app:destination="@id/questionnaireFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_alarmFragment"
+            app:destination="@id/alarmFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mobile_navigation" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.pkl_v1.ui.auth.LoginFragment"
@@ -34,23 +45,24 @@
             app:popUpTo="@id/mobile_navigation" />
     </fragment>
     <fragment
-        android:id="@+id/chartFragment"
-        android:name="com.example.pkl_v1.ChartFragment"
-        android:label="fragment_chart"
-        tools:layout="@layout/fragment_chart" />
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="com.example.pkl_v1.ui.HistoryFragment"
-        android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
-    <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.pkl_v1.ui.ProfileFragment"
+        android:name="com.example.pkl_v1.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mobile_navigation" />
+        <action
+            android:id="@+id/action_profileFragment_to_menuFragment2"
+            app:destination="@id/menuFragment2" />
+        <action
+            android:id="@+id/action_profileFragment_to_questionnaireFragment"
+            app:destination="@id/questionnaireFragment" />
+    </fragment>
     <fragment
         android:id="@+id/questionnaireFragment"
-        android:name="com.example.pkl_v1.QuestionnaireFragment"
+        android:name="com.example.pkl_v1.ui.question.QuestionFragment"
         android:label="fragment_questionnaire"
         tools:layout="@layout/fragment_questionnaire" />
     <fragment
@@ -58,4 +70,22 @@
         android:name="com.example.pkl_v1.ui.alarm.AlarmFragment"
         android:label="fragment_alarm"
         tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/menuFragment2"
+        android:name="com.example.pkl_v1.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment2_to_recordFragment"
+            app:destination="@id/recordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recordFragment"
+        android:name="com.example.pkl_v1.RecordFragment"
+        android:label="fragment_record"
+        tools:layout="@layout/fragment_record" >
+        <action
+            android:id="@+id/action_recordFragment_to_menuFragment2"
+            app:destination="@id/menuFragment2" />
+    </fragment>
 </navigation>

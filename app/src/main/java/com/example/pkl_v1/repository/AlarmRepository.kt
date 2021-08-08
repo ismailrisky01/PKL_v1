@@ -2,7 +2,7 @@ package com.example.pkl_v1.repository
 
 import androidx.lifecycle.LiveData
 import com.example.pkl_v1.model.AlarmModel
-import com.example.room_pkl.data.AlarmDAO
+import com.example.pkl_v1.data.alarm.AlarmDAO
 
 class AlarmRepository(private val alarmDAO: AlarmDAO) {
 
@@ -15,7 +15,10 @@ class AlarmRepository(private val alarmDAO: AlarmDAO) {
         alarmDAO.update(alarmModel)
     }
     suspend fun deleteAllAlarm(){
-        alarmDAO.deleteAllUser()
+        alarmDAO.deleteAllAlarm()
+    }
+    suspend fun deleteAlarm(alarmModel: AlarmModel){
+        alarmDAO.deleteAlarm(alarmModel)
     }
 
 }

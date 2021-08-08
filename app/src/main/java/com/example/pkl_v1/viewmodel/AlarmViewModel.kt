@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.pkl_v1.data.DatabaseKu
 import com.example.pkl_v1.model.AlarmModel
 import com.example.pkl_v1.repository.AlarmRepository
-import com.example.room_pkl.data.AlarmDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,7 +15,7 @@ class AlarmViewModel(application: Application):AndroidViewModel(application) {
     private val repository: AlarmRepository
 
     init {
-        val alarmDao = AlarmDatabase.getDatabase(application).alarmDao()
+        val alarmDao = DatabaseKu.getDatabase(application).alarmDao()
         repository = AlarmRepository(alarmDao)
         readAllAlarm = repository.readAllData
     }
@@ -30,9 +30,14 @@ class AlarmViewModel(application: Application):AndroidViewModel(application) {
             repository.deleteAllAlarm()
         }
     }
+    fun deleteAlarm(alarmModel: AlarmModel){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAlarm(alarmModel)
+        }
+    }
     fun upadteAlarm(alarmModel: AlarmModel){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addAlarm(alarmModel)
+            repository.updateAlarm(alarmModel)
         }
     }
 

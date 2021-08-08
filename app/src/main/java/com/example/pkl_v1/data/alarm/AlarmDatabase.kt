@@ -1,4 +1,4 @@
-package com.example.room_pkl.data
+package com.example.pkl_v1.data.alarm
 
 import android.content.Context
 import androidx.room.Database
@@ -15,7 +15,7 @@ abstract class AlarmDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AlarmDatabase? = null
 
-        fun getDatabase(context: Context): AlarmDatabase{
+        fun getDatabase(context: Context): AlarmDatabase {
             val tempInstance = INSTANCE
             if(tempInstance != null){
                 return tempInstance
