@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Parcelable
 import android.util.Log
 import android.widget.RemoteViews
@@ -17,8 +16,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.pkl_v1.MainActivity
 import com.example.pkl_v1.R
-import com.example.pkl_v1.data.alarm.AlarmBroadcastReceiver
-import com.example.pkl_v1.service.AlarmService
 import com.example.pkl_v1.service.logD
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -61,7 +58,7 @@ data class AlarmModel(
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, MyAlarm::class.java)
         val alarmPendingIntent =
-            PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_NO_CREATE)
+            PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         alarmManager.cancel(alarmPendingIntent)
         this.started = false
 
@@ -78,22 +75,6 @@ class MyAlarm : BroadcastReceiver() {
         intent: Intent
     ) {
 
-        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
-            val toastText = String.format("Alarm Reboot")
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
-            startRescheduleAlarmsService(context)
-        } else {
-            val toastText = String.format("Alarm Received")
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
-            if (!intent.getBooleanExtra(AlarmBroadcastReceiver.RECURRING, false)) {
-                startAlarmService(context, intent)
-            }
-            {
-                if (alarmIsToday(intent)) {
-                    startAlarmService(context, intent)
-                }
-            }
-        }
         var mediaPlayer: MediaPlayer? = null
         mediaPlayer = MediaPlayer.create(context, R.raw.alarm)
         mediaPlayer?.setOnPreparedListener {
@@ -102,31 +83,10 @@ class MyAlarm : BroadcastReceiver() {
         mediaPlayer?.start()
         Log.d("Alarm Bell", "Alarm just fired")
         notif(context)
-
     }
 }
 
-private fun startAlarmService(context: Context, intent: Intent) {
-    val intentService = Intent(context, AlarmService::class.java)
-    intentService.putExtra(
-        AlarmBroadcastReceiver.TITLE,
-        intent.getStringExtra(AlarmBroadcastReceiver.TITLE)
-    )
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        context.startForegroundService(intentService)
-    } else {
-        context.startService(intentService)
-    }
-}
 
-private fun startRescheduleAlarmsService(context: Context) {
-    val intentService = Intent(context, RescheduleAlarmsService::class.java)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        context.startForegroundService(intentService)
-    } else {
-        context.startService(intentService)
-    }
-}
 fun notif(context: Context) {
 
     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()

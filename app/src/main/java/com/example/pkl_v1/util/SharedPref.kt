@@ -5,16 +5,24 @@ import com.example.pkl_v1.model.AlarmModel
 
 class SharedPref(context: Context) {
     var tinyDB = TinyDB(context)
-    private val idAlarmKey = ""
-    private val hourKey = ""
-    private val minuteKey = ""
-    private val startedKey = ""
+    private val idAlarmKey = "idAlarmKey"
+    private val hourKey = "hourKey"
+    private val minuteKey = "minuteKey"
+    private val startedKey = "startedKey"
+    private val statusAlarmKey = "statusAlarmKey"
+
+    fun setAlarmSetStatus(statusAlarm:Boolean){
+        tinyDB.putBoolean(statusAlarmKey,statusAlarm)
+    }
+    fun getAlarmSetStatus():Boolean{
+        return tinyDB.getBoolean(statusAlarmKey)
+    }
 
     fun setData(alarmModel: AlarmModel){
-        tinyDB.putInt(idAlarmKey,alarmModel.id) as Int
-        tinyDB.putInt(hourKey,alarmModel.hour) as Int
-        tinyDB.putInt(minuteKey,alarmModel.minute) as Int
-        tinyDB.putBoolean(startedKey,alarmModel.started) as Boolean
+        tinyDB.putInt(idAlarmKey,alarmModel.id)
+        tinyDB.putInt(hourKey,alarmModel.hour)
+        tinyDB.putInt(minuteKey,alarmModel.minute)
+        tinyDB.putBoolean(startedKey,alarmModel.started)
     }
 
     fun getData():AlarmModel{

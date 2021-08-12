@@ -2,7 +2,7 @@ package com.example.pkl_v1.repository
 
 import androidx.lifecycle.LiveData
 import com.example.pkl_v1.model.AlarmModel
-import com.example.pkl_v1.data.alarm.AlarmDAO
+import com.example.pkl_v1.data.AlarmDAO
 
 class AlarmRepository(private val alarmDAO: AlarmDAO) {
 

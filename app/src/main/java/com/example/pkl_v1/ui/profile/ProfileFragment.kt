@@ -28,11 +28,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val name = FirebaseAuth.getInstance().currentUser?.displayName
-
         val user = FirebaseAuth.getInstance().currentUser!!
         binding.IDProfilNamaUser.text = user.displayName
         binding.IDProfileBtnLogOut.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_questionnaireFragment)
+            FirebaseAuth.getInstance().signOut()
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
     }
 

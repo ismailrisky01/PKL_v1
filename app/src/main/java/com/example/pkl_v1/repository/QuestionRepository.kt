@@ -1,24 +1,24 @@
 package com.example.pkl_v1.repository
 
-import android.app.Activity
-import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.pkl_v1.data.question.QuestionDAO
-import com.example.pkl_v1.model.AlarmModel
+import com.example.pkl_v1.data.QuestionDAO
+import com.example.pkl_v1.model.ModelNilai
+import com.example.pkl_v1.model.ModelNilaiPasien
 import com.example.pkl_v1.model.ModelQuestion
 import com.example.pkl_v1.util.LoadingHelper
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class QuestionRepository(private val questionDAO: QuestionDAO) {
     val readAllData: LiveData<List<ModelQuestion>> = questionDAO.readAllQuestion()
@@ -39,6 +39,10 @@ class QuestionRepository(private val questionDAO: QuestionDAO) {
         return questionDAO.nilaiQUestioner()
     }
 
+    suspend fun totalQuestion(): Int {
+        return questionDAO.countQUestioner()
+    }
+
     fun saveNilai(context: FragmentActivity, view: View) {
         val loading = LoadingHelper(context)
         loading.show()
@@ -49,7 +53,14 @@ class QuestionRepository(private val questionDAO: QuestionDAO) {
                     loading.dismiss()
                 }
             } else {
-                FirebaseDatabase.getInstance().reference.child("Nilai").setValue(nilaiQuestion())
+                val uid = FirebaseAuth.getInstance().currentUser?.uid as String
+                val date = SimpleDateFormat("ddMyyyy")
+                val currentDateNow = date.format(Date())
+
+                val total = nilaiQuestion()-totalQuestion()
+                val ref = FirebaseFirestore.getInstance().collection("PKL/Question/$uid").document(currentDateNow)
+                val data = ModelNilaiPasien(uid,currentDateNow,total)
+                ref.set(data)
                     .addOnSuccessListener {
                         GlobalScope.launch {
                             loading.dismiss()
@@ -83,17 +94,15 @@ class QuestionRepository(private val questionDAO: QuestionDAO) {
     }
     fun addData() {
         val data = ArrayList<ModelQuestion>()
-        data.add(ModelQuestion("","Anxietas psikis","tidak ada kesukaran mempertahankan tidur","Tidak ada","Sedang","Berat","",0))
-        data.add(ModelQuestion("","Gejala somatic GI","Tidak ada","Nafsu makan berkurang tetapi dapat makan tanpa dorongan teman, merasa perutnya penuh","Sukar makan tanpa dorongan teman, membutuhkan pencahar untuk buang air besar atau obat –obatan untuk seluruh pencernaan ","","",0))
-        data.add(ModelQuestion("","Gejala somatik umum ","tidak ada","anggota geraknya, punggung atau kepala terasa berat, sakit punggung kepala dan otot-otot, hilangnnya kekuatan dan kemampuan","Gejala-gejala diatas jelas","","",0))
-        data.add(ModelQuestion("","Genital(gejala pada genital dan linido)","tidak ada","Ringan","Berat","","",0))
-        data.add(ModelQuestion("","Hypochondriasis","tidak ada ","Dihayati sendiri"," preokupasi mengenai kesehatan diri sendiri"," sering mengeluh, membutuhkan pertolongan dan lain-lain","Delusi hypochondriasis ",0))
-        data.add(ModelQuestion("","Insight","mengetahui sedang depresi dan sakit","mengetahui sakit tetapi berhubungan dengan penyebab: iklim, makanan, bekerja berlebihan, virus, perlu istirahat dan lain-lain","","","",0))
-        data.add(ModelQuestion("","Depersonalisasi dan derealisasi","tidak ada. Misalnya merasa tidak ada realitas ide-ide nihilitas","ringan","sedang","berat","berat sekali (tidak dapat bekerja karena gangguan)",0))
-        data.add(ModelQuestion("","Gejala-gejala paranoia","tidak ada","ringan","berat","","",0))
+        data.add(ModelQuestion("",16,"Kehilangan berat badan, Bila hanya riwayatnya","tidak ada kehilangan bent badan"," kemungkinan bent badan berkurang berhubungan dengan sakit sekarang"," jelas (menurut pasien )berkurang berat badannya","tidak jelas lagi penurunan bent badan","",0))
+         data.add(ModelQuestion("",17,"Kehilangan berat badan, Di bawah pengawasan dokter bangsal secara mingguan bila jelas berat badan berkurang" +
+                 "menurut ukuran","kurang dari 0,5kg seminggu","lebih dari 0,5kg seminggu","lebih dari 1kg seminggu"," tidak dinyatakan lagi kehilangan berat badan","",0))
+        data.add(ModelQuestion("",16,"Variasi harian, Catat mana yang lebih berat pagi atau malam, kalau tidak ada gangguan beri tanda nol","tidak ada perubahan","  lebih berat waktu malam"," lebih buruk waktu pagi","","",0))
+        data.add(ModelQuestion("",16,"Variasi harian, Kalau ada perubahan tandai derajat perubahan tersebut, tandai nol bila tidak ada perubahan","tidak ada"," ringan"," berat","","",0))
+
         data.forEach {
             val ref = FirebaseFirestore.getInstance().collection("PKL/Soal/Kondisi").document()
-            ref.set(ModelQuestion(ref.id,it.soal,it.pilihan1,it.pilihan2,it.pilihan3,it.pilihan4,it.pilihan5,it.dipilih)).addOnSuccessListener {
+            ref.set(ModelQuestion(ref.id,it.noSoal,it.soal,it.pilihan1,it.pilihan2,it.pilihan3,it.pilihan4,it.pilihan5,it.dipilih)).addOnSuccessListener {
 
             }
             }

@@ -64,15 +64,20 @@ class QuestionFragment : Fragment(), PilihanListener {
                     data.forEach {
                         mQuestionViewModel.addData(it)
                     }
-                    adapter.setData(it,this)
+                   val datas = it.sortedBy {
+                        it.noSoal
+                    }
+                    adapter.setData(datas,this)
 //                    mQuestionViewModel.readAllQuestion.removeObservers(viewLifecycleOwner)
                     loading.dismiss()
                 })
             } else {
 //                Toast.makeText(requireContext(), "Data Available", Toast.LENGTH_SHORT).show()
 
-
-                adapter.setData(it,this)
+                val datas = it.sortedBy {
+                    it.noSoal
+                }
+                adapter.setData(datas,this)
                 adapter.notifyDataSetChanged()
 //                mQuestionViewModel.readAllQuestion.removeObservers(viewLifecycleOwner)
                 loading.dismiss()

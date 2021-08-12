@@ -4,10 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.pkl_v1.data.activity.ActivityDAO
-import com.example.pkl_v1.data.activity.NilaiDAO
-import com.example.pkl_v1.data.alarm.AlarmDAO
-import com.example.pkl_v1.data.question.QuestionDAO
 import com.example.pkl_v1.data.sensor.SensorGyroDAO
 import com.example.pkl_v1.model.*
 

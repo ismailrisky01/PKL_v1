@@ -23,11 +23,10 @@
             android:padding="10dp">
 
             <RadioGroup
-android:id="@+id/radioGroup"
+                android:id="@+id/radioGroup"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ID_ItemQuestion_TxtSoal">
 
@@ -41,6 +40,7 @@ android:id="@+id/radioGroup"
                 <RadioButton
                     android:id="@+id/ID_ItemQuestion_Pilihan2"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_height="wrap_content"
                     android:text=" perasaan ini hanya dinyatakan bila ditanya"
                     android:textColor="@color/black" />
@@ -48,12 +48,14 @@ android:id="@+id/radioGroup"
                 <RadioButton
                     android:id="@+id/ID_ItemQuestion_Pilihan3"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_height="wrap_content"
                     android:text="perasaan yang nyata tanpa komunikasi verbal misalnya ekspresi mukanya, bentuk suara dan  kecenderungan menangis"
                     android:textColor="@color/black" />
 
                 <RadioButton
                     android:id="@+id/ID_ItemQuestion_Pilihan4"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="pasien menyatakan perasaan yang sesungguhnya ini dalam komunikasi baik verbal maupun  non verbal secara spontan"
@@ -62,6 +64,7 @@ android:id="@+id/radioGroup"
                 <RadioButton
                     android:id="@+id/ID_ItemQuestion_Pilihan5"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_height="wrap_content"
                     android:text="Pasien menyatakan perasaan yang sesungguhnya ini dalam komunikasi baik verbal maupun
 non verbal secara spontan"

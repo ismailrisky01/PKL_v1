@@ -45,7 +45,7 @@ class RegistrasiFragment : Fragment() {
         val password = binding.IDRegisEdtPassword.text.toString()
         val confirm = binding.IDRegisEdtPasswordConfirm.text.toString()
         val umur = binding.IDRegisEdtUmur.text.toString()
-        val jenisKelamin = binding.IDRegisEdtJenisKelamin.toString()
+        val jenisKelamin = binding.IDRegisEdtJenisKelamin.text.toString()
         val tinggi = binding.IDRegisEdtTinggiBadan.text.toString()
         val beratBadan = binding.IDRegisEdtBerat.text.toString()
 

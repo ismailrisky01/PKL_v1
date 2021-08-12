@@ -68,7 +68,7 @@ class QuestionAdapter : RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
             holder.binding.IDItemQuestionPilihan5.text = currentData.pilihan5
 
         }
-        holder.binding.IDItemQuestionTxtSoal.text = currentData.soal
+        holder.binding.IDItemQuestionTxtSoal.text = "${currentData.noSoal} ${currentData.soal}"
 
     }
 
@@ -118,6 +118,7 @@ class QuestionAdapter : RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
         fun data(modelQuestion: ModelQuestion, pilihan: Int): ModelQuestion {
             return ModelQuestion(
                 modelQuestion.idSoal,
+                modelQuestion.noSoal,
                 modelQuestion.soal,
                 modelQuestion.pilihan1,
                 modelQuestion.pilihan2,

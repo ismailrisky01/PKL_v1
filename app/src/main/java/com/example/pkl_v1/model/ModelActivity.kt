@@ -15,11 +15,16 @@ data class ModelActivity(
     val berbaring: Int,
 ): Parcelable
 
+
 @Parcelize
 @Entity(tableName = "activity_nilai")
 data class ModelNilai(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val nlai: Double,
-
 ): Parcelable
+
+class ModelPasienActivity(val id:String,val duduk:Int,val berdiri:Int,val berbaring:Int){
+    constructor():this("",0,0,0)
+
+}

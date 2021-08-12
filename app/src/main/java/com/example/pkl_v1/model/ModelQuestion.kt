@@ -10,6 +10,7 @@ import kotlinx.parcelize.Parcelize
 class ModelQuestion(
     @PrimaryKey
     val idSoal: String,
+    val noSoal:Int,
     val soal: String,
     val pilihan1: String,
     val pilihan2: String,
@@ -18,5 +19,5 @@ class ModelQuestion(
     val pilihan5: String,
     val dipilih:Int
 ) : Parcelable{
-    constructor():this("","","","","","","",0)
+    constructor():this("",0,"","","","","","",0)
 }
