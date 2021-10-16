@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.example.pkl_v1.data.QuestionDAO
-import com.example.pkl_v1.model.ModelNilai
 import com.example.pkl_v1.model.ModelNilaiPasien
 import com.example.pkl_v1.model.ModelQuestion
 import com.example.pkl_v1.util.LoadingHelper
@@ -54,7 +53,7 @@ class QuestionRepository(private val questionDAO: QuestionDAO) {
                 }
             } else {
                 val uid = FirebaseAuth.getInstance().currentUser?.uid as String
-                val date = SimpleDateFormat("ddMyyyy")
+                val date = SimpleDateFormat("ddMMyyyy")
                 val currentDateNow = date.format(Date())
 
                 val total = nilaiQuestion()-totalQuestion()

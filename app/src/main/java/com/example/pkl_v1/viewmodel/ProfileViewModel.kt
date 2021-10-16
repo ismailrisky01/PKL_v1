@@ -4,19 +4,19 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.pkl_v1.model.ModelPasien
-import com.example.pkl_v1.repository.DashboardRepository
+import com.example.pkl_v1.model.ModelDataDiriPasien
+import com.example.pkl_v1.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: DashboardRepository = DashboardRepository()
-    fun setProfile(modelPasien: ModelPasien):Boolean {
+    private val repository: Repository = Repository()
+    fun setProfile(modelDataDiriPasien: ModelDataDiriPasien):Boolean {
         return viewModelScope.launch(Dispatchers.IO) {
-            repository.setProfile(modelPasien)
+            repository.setProfile(modelDataDiriPasien)
         }.isCompleted
     }
-    fun getProfile(): LiveData<ModelPasien> {
+    fun getProfile(): LiveData<ModelDataDiriPasien> {
         return repository.getProfile()
     }
 }

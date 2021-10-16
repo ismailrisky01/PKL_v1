@@ -12,10 +12,10 @@
 <!--        android:label="Questionair"-->
 <!--        android:title="Ask" />-->
 <!--    <item-->
-<!--        android:id="@+id/alarmFragment"-->
-<!--        android:icon="@drawable/ic_baseline_access_alarm_24"-->
-<!--        android:label="Alarm"-->
-<!--        android:title="Alarm" />-->
+<!--        android:id="@+id/notifFragment"-->
+<!--        android:icon="@drawable/ic_baseline_notifications_24"-->
+<!--        android:label="Notif"-->
+<!--        android:title="Notif" />-->
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_baseline_person_24"

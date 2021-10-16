@@ -3,15 +3,20 @@ package com.example.pkl_v1.service
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.IBinder
 import android.os.Vibrator
 import android.util.Log
 import android.widget.DatePicker
+import android.widget.RemoteViews
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDeepLinkBuilder
+import com.example.pkl_v1.MainActivity
 import com.example.pkl_v1.R
 import com.example.pkl_v1.model.AlarmModel
 import com.example.pkl_v1.viewmodel.AlarmViewModel
@@ -29,19 +34,54 @@ class AlarmService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-//        val notificationIntent = Intent(this, RingActivity::class.java)
-//        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-//        val alarmTitle = String.format("%s Alarm", intent.getStringExtra(TITLE))
-//        val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
-//            .setContentTitle(alarmTitle)
-//            .setContentText("Ring Ring .. Ring Ring")
-//            .setSmallIcon(R.drawable.ic_alarm_black_24dp)
-//            .setContentIntent(pendingIntent)
-//            .build()
-//        mediaPlayer!!.start()
-//        val pattern = longArrayOf(0, 100, 1000)
-//        vibrator!!.vibrate(pattern, 0)
-//        startForeground(1, notification)
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+
+        var notificationManager: NotificationManager
+        var notificationChannel: NotificationChannel
+        var builder: Notification.Builder
+        var contentView: RemoteViews
+        val appID = "ID"
+        val desc = "Desc"
+        notificationManager =
+            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        contentView = RemoteViews(this?.packageName, R.layout.fragment_notifikasi)
+        contentView.setTextViewText(R.id.ID_Notif_txtNotifTittle, "AntriKom")
+        contentView.setTextViewText(R.id.ID_Notif_txtNotifDesc, "Kamu berhasil mengambil antrian!")
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntentq = PendingIntent.getActivity(
+            this,
+            12,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val pendingIntent = NavDeepLinkBuilder(this)
+            .setComponentName(MainActivity::class.java)
+            .setGraph(R.navigation.mobile_navigation)
+            .setDestination(R.id.questionnaireFragment)
+            .createPendingIntent()
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel =
+                NotificationChannel(appID, desc, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GRAY
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(this, appID)
+                .setContent(contentView)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        this.resources,
+                        R.drawable.ic_launcher_foreground
+                    )
+                )
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+            notificationManager.notify(12, builder.build())
+        }
   return START_STICKY
     }
 

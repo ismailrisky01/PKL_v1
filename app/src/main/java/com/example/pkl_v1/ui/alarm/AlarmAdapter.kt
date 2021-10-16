@@ -21,7 +21,6 @@ class AlarmAdapter : RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemAlarmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         return ViewHolder(binding, listener!!,deleteListener!!)
     }
 
@@ -58,5 +57,4 @@ class AlarmAdapter : RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
             this.deleteListener= deleteListener
         }
     }
-
 }

@@ -20,6 +20,7 @@ import com.example.pkl_v1.databinding.FragmentQuestionnaireBinding
 import com.example.pkl_v1.model.ModelQuestion
 import com.example.pkl_v1.ui.alarm.PilihanListener
 import com.example.pkl_v1.util.LoadingHelper
+import com.example.pkl_v1.util.SharedPref
 import com.example.pkl_v1.viewmodel.QuestionViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,6 +48,11 @@ class QuestionFragment : Fragment(), PilihanListener {
         checkData()
         binding.IDQuestionBtnSubmit.setOnClickListener {
             mQuestionViewModel.uploadNilai(requireActivity(),it)
+            SharedPref(requireContext()).setAlarmSetStatus(false)
+        }
+
+        binding.IDDaftarPolisiBtnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -59,7 +65,7 @@ class QuestionFragment : Fragment(), PilihanListener {
         binding.IDQuestionRecyclerview.adapter = adapter
         mQuestionViewModel.readAllQuestion.observe(viewLifecycleOwner, Observer { it ->
             if (it.isEmpty()) {
-                Toast.makeText(requireContext(), "Downloading", Toast.LENGTH_SHORT).show()
+
                 mQuestionViewModel.downloadData().observe(viewLifecycleOwner, Observer { data ->
                     data.forEach {
                         mQuestionViewModel.addData(it)
@@ -85,8 +91,6 @@ class QuestionFragment : Fragment(), PilihanListener {
         })
 
     }
-
-
 
 
     override fun onDestroy() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashScreensFragment">
 
     <fragment
         android:id="@+id/dashboardFragment"
@@ -46,6 +46,9 @@
             android:id="@+id/action_registrasiFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment"
             app:popUpTo="@id/mobile_navigation" />
+        <action
+            android:id="@+id/action_registrasiFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -56,9 +59,6 @@
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/mobile_navigation" />
-        <action
-            android:id="@+id/action_profileFragment_to_menuFragment2"
-            app:destination="@id/menuFragment2" />
         <action
             android:id="@+id/action_profileFragment_to_questionnaireFragment"
             app:destination="@id/questionnaireFragment" />
@@ -74,21 +74,22 @@
         android:label="fragment_alarm"
         tools:layout="@layout/fragment_alarm" />
     <fragment
-        android:id="@+id/menuFragment2"
-        android:name="com.example.pkl_v1.MenuFragment"
-        android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" >
+        android:id="@+id/splashScreensFragment"
+        android:name="com.example.pkl_v1.SplashScreensFragment"
+        android:label="fragment_splash_screens"
+        tools:layout="@layout/fragment_splash_screens" >
         <action
-            android:id="@+id/action_menuFragment2_to_recordFragment"
-            app:destination="@id/recordFragment" />
+            android:id="@+id/action_splashScreensFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/mobile_navigation" />
+        <action
+            android:id="@+id/action_splashScreensFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mobile_navigation" />
     </fragment>
     <fragment
-        android:id="@+id/recordFragment"
-        android:name="com.example.pkl_v1.RecordFragment"
-        android:label="fragment_record"
-        tools:layout="@layout/fragment_record" >
-        <action
-            android:id="@+id/action_recordFragment_to_menuFragment2"
-            app:destination="@id/menuFragment2" />
-    </fragment>
+        android:id="@+id/notifFragment"
+        android:name="com.example.pkl_v1.ui.notif.NotifFragment"
+        android:label="fragment_notif"
+        tools:layout="@layout/fragment_notif" />
 </navigation>

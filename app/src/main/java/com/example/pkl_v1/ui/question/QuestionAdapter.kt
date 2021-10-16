@@ -68,7 +68,7 @@ class QuestionAdapter : RecyclerView.Adapter<QuestionAdapter.ViewHolder>() {
             holder.binding.IDItemQuestionPilihan5.text = currentData.pilihan5
 
         }
-        holder.binding.IDItemQuestionTxtSoal.text = "${currentData.noSoal} ${currentData.soal}"
+        holder.binding.IDItemQuestionTxtSoal.text = "${currentData.noSoal}. ${currentData.soal}"
 
     }
 

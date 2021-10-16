@@ -5,11 +5,12 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.PKL_v1">
         <activity android:name=".MainActivity">
@@ -19,12 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:process=":remote" android:name=".model.MyAlarm">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
+        <receiver android:name=".service.AlarmBoardcasReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+<!--        <receiver android:name=".service.AlarmReceiver">-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

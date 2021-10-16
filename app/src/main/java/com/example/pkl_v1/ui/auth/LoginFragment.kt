@@ -11,9 +11,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.pkl_v1.R
 import com.example.pkl_v1.databinding.FragmentLoginBinding
 import com.example.pkl_v1.databinding.FragmentRegistrasiBinding
+import com.example.pkl_v1.model.ModelSchedule
 import com.example.pkl_v1.util.LoadingHelper
+import com.example.pkl_v1.util.SharedPref
 import com.example.pkl_v1.viewmodel.AuthViewModel
 import com.example.pkl_v1.viewmodel.DashboardViewModel
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import es.dmoral.toasty.Toasty
 
@@ -70,7 +73,13 @@ class LoginFragment : Fragment() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) {
                     if (it.isSuccessful) {
+
+                        ModelSchedule().cancleAktivitas(requireContext())
+                        val data = ModelSchedule()
+                        data.setAlarm(requireContext())
+                        data.setAktivitas(requireContext())
                         findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                        SharedPref(requireContext()).setAlarmSetStatus(false)
                         loading.dismiss()
                     } else {
                         loading.dismiss()

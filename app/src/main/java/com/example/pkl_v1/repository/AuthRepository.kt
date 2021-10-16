@@ -5,9 +5,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.pkl_v1.R
-import com.example.pkl_v1.model.ModelPasien
+import com.example.pkl_v1.model.ModelDataDiriPasien
 import com.example.pkl_v1.util.LoadingHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,28 +18,21 @@ class AuthRepository {
     fun loginUser(
         email: String,
         password: String,
-        modelPasien: ModelPasien,
-        activity: FragmentActivity,
-        view: View
+        context: Context,
+        task:Unit
     ) {
-        val loading = LoadingHelper(activity)
+        val loading = LoadingHelper(context)
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(activity) {
+            .addOnCompleteListener {
                 if (it.isSuccessful) {
                     val user = FirebaseAuth.getInstance().currentUser?.uid as String
-                    firestore.collection("PKL/Data/Pasien").document(user).set(modelPasien)
-                        .addOnSuccessListener {
-                            loading.dismiss()
-                            activity.findNavController(view.id)
-                                .navigate(R.id.action_loginFragment_to_dashboardFragment)
-
-                        }
+                    task
                     loading.dismiss()
                 } else {
                     loading.dismiss()
                     Toasty.error(
-                        activity,
+                        context,
                         "" + it.exception?.message,
                         Toast.LENGTH_SHORT,
                         true
@@ -50,9 +42,9 @@ class AuthRepository {
 
     }
 
-    fun setData(modelPasien: ModelPasien, context: Context) {
+    fun setData(modelDataDiriPasien: ModelDataDiriPasien, context: Context) {
         val user = FirebaseAuth.getInstance().currentUser?.uid as String
-        firestore.collection("PKL/Data/Pasien").document(user).set(modelPasien)
+        firestore.collection("PKL/Data/Pasien").document(user).set(modelDataDiriPasien)
     }
 
 }
